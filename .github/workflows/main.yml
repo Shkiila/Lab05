@@ -17,3 +17,23 @@ jobs:
           run: |
             cmake -H. -B_built
             cmake --build _built
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: update
+        run:  |
+          git submodule update --init
+          sudo apt install lcov
+          sudo apt install g++-9
+      
+      - name: test
+        shell: bash
+        run: |
+          mkdir _built && cd _built
+          CXX=/usr/bin/g++-7 cmake -DCOVERAGE=1 ..
+          cmake --build .
+          ./RunTest
+          lcov -t "banking" -o lcov.info -c -d .

@@ -38,7 +38,7 @@ jobs:
           ./RunTest
           lcov -t "banking" -o lcov.info -c -d .
           
-          - name: coveralls parallel
+      - name: coveralls parallel
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.github_token }}
